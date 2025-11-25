@@ -1,5 +1,5 @@
 
-// Nome dos participantes: Raphael Brandão, Ana Clara, Matheus Souza, Hellen de Sá, Eyshila.
+// Nome dos participantes: , Ana Clara, Eyshila, Hellen de Sá, Matheus Souza,Raphael Brandão.
 
 import com.sun.jna.Library;   // Importa a interface base para trabalhar com DLLs via JNA
 import com.sun.jna.Native;    // Permite carregar uma DLL e vincular suas funções
