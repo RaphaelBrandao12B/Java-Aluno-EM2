@@ -1,4 +1,3 @@
-
 // Nome dos participantes: Raphael Brandão, Ana Clara, Matheus Souza, Hellen de Sá, Eyshila.
 
 import com.sun.jna.Library;   // Importa a interface base para trabalhar com DLLs via JNA
@@ -17,7 +16,7 @@ public class Main {
 
         // Carregamento da DLL — caminho deve existir no computador do usuário
         ImpressoraDLL INSTANCE = (ImpressoraDLL) Native.load(
-                "C:\\Users\\matheus_ricardo\\Desktop\\Java-Aluno EM\\E1_Impressora01.dll",
+                "C:\\Users\\User\\Downloads\\Java-Aluno EM\\Java-Aluno EM\\Java-Aluno EM\\E1_Impressora01.dll",
                 ImpressoraDLL.class
         );
 
@@ -26,7 +25,7 @@ public class Main {
         int FechaConexaoImpressora();
         int ImpressaoTexto(String dados, int posicao, int estilo, int tamanho);
         int Corte(int avanco);
-        int ImpressaoQRCode(int dados, int tamanho, int nivelCorrecao);
+        int ImpressaoQRCode(String dados, int tamanho, int nivelCorrecao);
         int ImpressaoCodigoBarras(int tipo, String dados, int altura, int largura, int HRI);
         int AvancaPapel(int linhas);
         int StatusImpressora(int param);
@@ -72,17 +71,20 @@ public class Main {
 
     // Função que abre a conexão com a impressora (chamando a DLL)
     public static void abrirConexao() {
-        if (!conexaoAberta) {
-            int retorno = ImpressoraDLL.INSTANCE.AbreConexaoImpressora(tipo, modelo, conexao, parametro);
-
-            if (retorno == 0) {
+        if(!conexaoAberta){
+            int retorno = ImpressoraDLL.INSTANCE.AbreConexaoImpressora(1,modelo,conexao,4);
+            if (retorno == 0 ) {
                 conexaoAberta = true;
-                System.out.println("Conexão aberta com sucesso!");
-            } else {
-                System.out.println("Erro ao abrir conexão. Código: " + retorno);
+                System.out.println("Conexao aberta com sucesso!");
             }
-        } else {
-            System.out.println("A conexão já está aberta!");
+            else {
+                System.out.println("Deu erro!Retorno..." +  retorno);
+            }
+        }
+
+        else {
+            System.out.println("a conexão já está aberta!");
+
         }
     }
 
@@ -106,10 +108,11 @@ public class Main {
     public static void imprimirTexto() {
         if (conexaoAberta) {
 
+
             System.out.println("Digite o texto que deseja imprimir:");
             String texto = scanner.nextLine();
 
-            int retorno = ImpressoraDLL.INSTANCE.ImpressaoTexto(String.valueOf(1), 2,3, 4);
+            int retorno = ImpressoraDLL.INSTANCE.ImpressaoTexto(texto, 2, 3, 4);
 
             if (retorno == 0) {
                 System.out.println("Texto impresso com sucesso!");
@@ -126,9 +129,12 @@ public class Main {
     // Impressão de QR Code
     public static void imprimirQRCode() {
         if (conexaoAberta) {
+
             System.out.println("Digite o texto para o QR Code:");
             String dados = scanner.nextLine();
-            int retorno = ImpressoraDLL.INSTANCE.ImpressaoQRCode(1, 2, 3);
+
+
+            int retorno = ImpressoraDLL.INSTANCE.ImpressaoQRCode(dados, 1, 2);
 
             if (retorno == 0) {
                 System.out.println("QR Code impresso!");
@@ -146,15 +152,12 @@ public class Main {
     public static void imprimirCodBarras() {
         if (conexaoAberta) {
 
-            System.out.println("Escolha o tipo de código de barras:");
-            System.out.println("1=UPC-A, 2=UPC-E, 3=EAN-13, 4=EAN-8, 5=CODE 39, 6=ITF, 7=CODEBAR, 8=CODE 93, 9=CODE 128");
-            int tipo = Integer.parseInt(scanner.nextLine());
 
+            System.out.println("Digite os dados:");
+            String dados = scanner.nextLine();
+            ;
 
-            System.out.println("Exibir texto abaixo? (0=não, 1=sim):");
-            int hri = Integer.parseInt(scanner.nextLine());
-
-            int retorno = ImpressoraDLL.INSTANCE.ImpressaoCodigoBarras(1, String.valueOf(2), 3, 4, 5);
+            int retorno = ImpressoraDLL.INSTANCE.ImpressaoCodigoBarras(1, dados, 2, 3, 4);
 
             if (retorno == 0) {
                 System.out.println("Código de barras impresso!");
